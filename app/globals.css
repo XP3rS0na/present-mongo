@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+   
+  }
+}
+
+
+body {
+  font-family: 'Manrope', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #1f2039;
+  color: #fff; 
+}
+
+#a {
+  position: relative;
+  font-size: 1.25em;
+  color: #000;
+  text-decoration: none;
+}
+
+#a:hover {
+  color: #000;
+}
+
+#a::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #000;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+#a:hover::before {
+  transform: scaleX(1);
+}
+
+input, textarea {
+  color : black;
+}
+
+h2 {
+  color: #a5b4fc;
+  font-size : 2em;
+}
+
+header {
+  z-index : 2;
+}
+
+#projetGlobal {
+  z-index : 0;
+  position : sticky;
+}
+
+/* #projet:hover {
+	animation: rotateAnimation 0.5s linear;
+} */
+
+@keyframes rotateAnimation {
+	0% {transform: rotateY(0deg);}
+	100% {transform: rotateY(90deg);}
+}
+
+#projet_hid {
+  display : none;
+  
+  /*animation : rotateAnimation1 0.5s linear */;
+}
+
+@keyframes rotateAnimation1 {
+	0% {transform: rotateY(-90deg);}
+	100% {transform: rotateY(0deg);}
+}
