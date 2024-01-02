@@ -5,7 +5,7 @@ import Section from './section/page'
 import Contact from './contact/page'
 import Projet from './projet/page'
 import { Manrope } from 'next/font/google'
-import { Call, Insert } from './api/email/route'
+import { Call }  from './api/email/route'
  
 const manrope = Manrope({
   weight: '400',
