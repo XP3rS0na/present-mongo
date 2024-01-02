@@ -1,44 +1,74 @@
-import { type NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
-import Mail from 'nodemailer/lib/mailer';
+import ClientPromise from '../../lib/mongodb'
+import { MongoClient, ObjectId } from 'mongodb'
+import { FormData } from '@/app/contact/page';
 
-export async function POST(request: NextRequest) {
-  const { email, name, message } = await request.json();
-  let recap = ""; 
-  recap = `Message envoyé : de ${name} (${email}) : "${message}"`;
-  console.log(recap);
+export interface MyDocument {
+  _id: ObjectId;
+  name: string;
+  mail: string;
+  content: string;
+}
 
-  const transport = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.MY_EMAIL,
-      pass: process.env.MY_PASSWORD,
-    },
-  });
+export async function Call () {
+  const client = await ClientPromise;
+  const collection = client.db("testPort").collection("form")
+  const data = await collection.find({}).toArray();
+  
+  const table: {id : ObjectId, name: string, mail: string, content: string}[] = data.map((item: MyDocument)=> ({
+    _id: item._id,
+    name: item.name,
+    mail: item.mail,
+    content: item.content,
+    
+  }));
 
-  const mailOptions: Mail.Options = {
-    from: process.env.MY_EMAIL,
-    to: process.env.MY_EMAIL,
-    // cc: email, (uncomment this line if you want to send a copy to the sender)
-    subject: `Message from ${name} (${email})`,
-    text: message,
+  console.log(table);
+  }
+
+  const newDocument: MyDocument = {
+    _id: new ObjectId(),
+    name: 'New Document',
+    mail: 'new@example.com',
+    content: 'Some content',
   };
 
-  const sendMailPromise = () =>
-    new Promise<string>((resolve, reject) => {
-      transport.sendMail(mailOptions, function (err) {
-        if (!err) {
-          resolve(recap);
-        } else {
-          reject(err.message);
-        }
-      });
-    });
-
-  try {
-    await sendMailPromise();
-    return NextResponse.json({ message: recap, status : 200}, {status : 200});
-  } catch (err) {
-    return NextResponse.json({ error: err }, { status: 500 });
+  export async function createDoc(request: Request) {
+    const formData = await request.formData()
+    const _name = formData.get('name')
+    const _mail = formData.get('mail')
+    const _content = formData.get('content')
+    function find(): MyDocument {
+      const newDocument: MyDocument = {
+        _id: new ObjectId(),
+        name: _name as string, 
+        mail: _mail as string,
+        content: _content as string,
+      };
+    
+      return newDocument;
+    }
+    find();
   }
-}
+
+  console.log(newDocument)
+
+
+
+  
+
+  export async function Insert(document: MyDocument): Promise<void> {
+    const client = await ClientPromise;
+    const collection = client.db("testPort").collection("form");
+  
+    try {
+      // Insert the document into the collection
+      await collection.insertOne(document);
+      console.log('Document inserted successfully:', document);
+    } catch (error) {
+      console.error('Error inserting document:', error);
+      throw error; // Re-throw the error for further handling
+    }
+  }
+
+  
+  

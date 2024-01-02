@@ -5,6 +5,7 @@ import Section from './section/page'
 import Contact from './contact/page'
 import Projet from './projet/page'
 import { Manrope } from 'next/font/google'
+import { Call, Insert } from './api/email/route'
  
 const manrope = Manrope({
   weight: '400',
@@ -20,6 +21,9 @@ export const metadata: Metadata = {
 
  
 export default function Home() {
+  //makeRequest();
+Call();
+
   return (
     <main className={manrope.className}>
       <Head>
@@ -34,3 +38,6 @@ export default function Home() {
     
   )
 }
+
+
+
