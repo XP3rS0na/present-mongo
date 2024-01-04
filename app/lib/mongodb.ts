@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-const uri ="mongodb+srv://user0:mdpUser0@test0.b310lhl.mongodb.net/?retryWrites=true&w=majority"; // your mongodb connection string
+const uri =process.env.MONGODB_URI; // your mongodb connection string
 const options = {};
 
 let client;
