@@ -8,6 +8,7 @@ export async function sendEmail(data: FormData) {
     method: 'POST',
     body: JSON.stringify(data),
   })
+  
     .then((res) => res.json())
     .then((response) => {
       

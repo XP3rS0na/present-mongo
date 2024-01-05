@@ -48,6 +48,7 @@ export async  function POST(request: NextRequest) {
   mail: `${email}`,
   content: `${message}`,
   }); 
+  return Response.json
 }
 
 
